@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:d="http://www.bstek.com/dorado/schema"
+	xsi:schemaLocation="
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+http://www.bstek.com/dorado/schema http://www.bstek.com/dorado/schema/spring-dorado-7.1.xsd">
+    <import resource="app-context.xml" />
+
+    <bean parent="dorado.dataConfigLoader">
+        <property name="configLocation" value="${model.root}/*.model.xml" />
+    </bean>
+
+    <bean parent="dorado.viewConfigFactoryRegister">
+        <property name="viewNamePattern" value="**" />
+        <property name="viewConfigFactory">
+            <bean parent="dorado.xmlViewConfigDefinitionFactory">
+                <property name="pathPrefix" value="${view.root}" />
+            </bean>
+        </property>
+    </bean>
+    <!--
+    对于使用dorado-touch的项目，上面的配置应改为...
+    <bean parent="dorado.viewConfigFactoryRegister">
+        <property name="viewNamePattern" value="**" />
+        <property name="viewConfigFactory">
+            <bean parent="dorado.dualPlatformXmlViewConfigDefinitionFactory">
+                <property name="pathPrefix" value="${view.root}" />
+            </bean>
+        </property>
+    </bean>
+    -->
+
+	<bean id="bdf2.frameworkService" class="com.gopher.oc.security.OCFrameworkService">
+		<property name="deptService" ref="bdf2.deptService"></property>
+		<property name="positionService" ref="bdf2.positionService"></property>
+		<property name="groupService" ref="bdf2.groupService"></property>
+		<property name="passwordEncoder" ref="bdf2.passwordEncoder"/>
+		<property name="useWhiteList" value="${oc.useWhiteList}"></property>
+		<property name="whiteList" value="${oc.whiteList}"></property>
+		<property name="runMode" value="${core.runMode}"></property>
+		<property name="ldapProviderUrl" value="${oc.ldapProviderUrl}"></property>
+		<property name="ldapDomain" value="${oc.ldapDomain}"></property>
+		<property name="ldapDn" value="${oc.ldapDn}"></property>
+	</bean>
+	
+	<bean id="bdf2.userService" class="com.gopher.oc.security.OCUserService">
+		<property name="passwordEncoder" ref="bdf2.passwordEncoder"></property>
+	</bean>
+	
+	<bean parent="bdf2.anonymousUrl">
+		<property name="urlPattern" value="${bdf2.loginFailureTargetUrl}"></property>
+	</bean>
+	
+
+
+	<bean parent="dorado.packagesConfigLoader">
+		<property name="configLocation" value="home:packages-config.xml">
+		</property>
+	</bean>
+	
+	<bean parent="dorado.assembledComponentTypeRegister">
+	    <property name="name" value="Uploader" />
+	    <property name="src" value="com.gopher.oc.component.Uploader#Uploader" />
+	    <d:virtual-property name="category" />
+	   	<d:virtual-property name="relationId" />
+	   	<d:virtual-property name="autoUpload" defaultValue="false" type="boolean"/>
+	   	<d:virtual-property name="showCategory" defaultValue="false" type="boolean"/>
+	   	<d:virtual-property name="showAdd" defaultValue="true" type="boolean" />
+	   	<d:virtual-property name="showDelete" defaultValue="true" type="boolean"/>
+	   	<d:virtual-property name="showStart" defaultValue="true" type="boolean"/>
+	   	<d:virtual-property name="showStop" defaultValue="true" type="boolean"/>
+	   	<d:virtual-property name="disabled" defaultValue="false" type="boolean"/>
+	   	
+	</bean>
+	<bean parent="dorado.assembledComponentTypeRegister">
+	    <property name="name" value="EmailSender" />
+	    <property name="src" value="com.gopher.oc.component.EmailSender#EmailSender" />
+	    <d:virtual-property name="categoryId" />
+	   	<d:virtual-property name="templateId" />
+	</bean>
+	<bean parent="dorado.assembledComponentTypeRegister">
+	    <property name="name" value="EmailSenderPanel" />
+	    <property name="src" value="com.gopher.oc.component.EmailSenderPanel#EmailSenderPanel" />
+	    <d:virtual-property name="categoryId" />
+	   	<d:virtual-property name="templateId" />
+	</bean>
+	<bean parent="dorado.assembledComponentTypeRegister">
+	    <property name="name" value="PDFUeditor" />
+	    <property name="src" value="com.gopher.oc.component.PDFUeditor#PDFUeditor" />
+	    <d:virtual-property name="dataSet" referenceComponentType="DataSet"/>
+	   	<d:virtual-property name="caption" />
+	   	<d:virtual-property name="property" />
+	   	<d:virtual-property name="fileName"/>
+	   	<d:virtual-property name="readOnly" defaultValue="false" type="boolean"/>
+	</bean>
+	<bean parent="dorado.assembledComponentTypeRegister">
+	    <property name="name" value="EmailTemplatePanel" />
+	    <property name="src" value="com.gopher.oc.component.EmailTemplatePanel#EmailTemplatePanel" />
+	   	<d:virtual-property name="templateId" />
+	</bean>
+	<bean parent="dorado.assembledComponentTypeRegister">
+	    <property name="name" value="UserProvider" />
+	    <property name="src" value="com.gopher.oc.component.UserProvider#UserProvider" />
+	   	<d:virtual-property name="selectionMode"/>
+	   	<d:virtual-event name="onSelected" />
+	</bean>
+	
+	<bean parent="dorado.assembledComponentTypeRegister">
+	    <property name="name" value="RoleUserProvider" />
+	    <property name="src" value="com.gopher.oc.component.RoleUserProvider#RoleUserProvider" />
+	   	<d:virtual-property name="selectionMode"/>
+	   	<d:virtual-property name="role"/>
+	   	<d:virtual-event name="onSelected" />
+	</bean>
+	<bean parent="dorado.assembledComponentTypeRegister">
+	    <property name="name" value="BackupFundProvider" />
+	    <property name="src" value="com.gopher.oc.component.BackupFundProvider#BackupFundProvider" />
+	   	<d:virtual-property name="selectionMode"/>
+	   	<d:virtual-property name="fundState"/>
+	   	<d:virtual-event name="onSelected" />
+	</bean>
+	<bean parent="dorado.assembledComponentTypeRegister">
+	    <property name="name" value="BUAUserProvider" />
+	    <property name="src" value="com.gopher.oc.component.BUAUserProvider#BUAUserProvider" />
+	   	<d:virtual-property name="selectionMode"/>
+	   	<d:virtual-event name="onSelected" />
+	</bean>
+	<bean parent="dorado.assembledComponentTypeRegister">
+	    <property name="name" value="FormDialog" />
+	    <property name="src" value="com.gopher.oc.component.FormDialog#FormDialog" />
+	   	<d:virtual-event name="onCompleteTask" />
+	</bean>
+	
+	<bean parent="dorado.assembledComponentTypeRegister">
+	    <property name="name" value="UReportDialog" />
+	    <property name="src" value="com.gopher.oc.component.UReportDialog#UReportDialog" />
+	</bean>
+	<bean parent="dorado.assembledComponentTypeRegister">
+	    <property name="name" value="TaskList" />
+	    <property name="src" value="com.gopher.oc.component.TaskList#TaskList" />
+	   	<d:virtual-event name="onCompleteTask" />
+	</bean>
+	
+	<bean parent="dorado.assembledComponentTypeRegister">
+	    <property name="name" value="UfloBar" />
+	    <property name="src" value="com.gopher.oc.component.UfloBar#UfloBar" />
+	    <d:virtual-property name="itemCodes" defaultValue="s,c"/>
+	   	<d:virtual-property name="dataSet" referenceComponentType="DataSet"/>
+	   	<d:virtual-property name="updateAction" defaultValue="updateAction" referenceComponentType="UpdateAction"/>
+	    <d:virtual-event name="beforeCompleteTask" />
+	   	<d:virtual-event name="onCompleteTask" />
+	    <d:virtual-event name="onSubAction" />
+	   
+	</bean>
+	<bean parent="dorado.assembledComponentTypeRegister">
+	    <property name="name" value="StartFlowButton" />
+	    <property name="src" value="com.gopher.oc.component.StartFlowButton#StartFlowButton" />
+	    <d:virtual-property name="processId"/>
+	    <d:virtual-property name="processKey"/>
+	    <d:virtual-property name="processName"/>
+   	    <d:virtual-property name="executingMessage"/>
+   	    <d:virtual-property name="successMessage"/>
+   	    <d:virtual-property name="confirmMessage"/>
+	    <d:virtual-property name="autoInsert" defaultValue="true" type="boolean"/>
+	   	<d:virtual-property name="updateAction" defaultValue="updateAction" referenceComponentType="UpdateAction"/>
+	    <d:virtual-event name="beforeStartFlow" />
+	   	<d:virtual-event name="onStartFlow" />
+	</bean>
+	<bean parent="dorado.assembledComponentTypeRegister">
+	    <property name="name" value="TaskDataGrid" />
+	    <property name="src" value="com.gopher.oc.component.TaskDataGrid#TaskDataGrid" />
+	   	<d:virtual-property name="updateAction" defaultValue="updateAction" referenceComponentType="UpdateAction"/>
+	    <d:virtual-property name="waitIconClass" defaultValue="fa fa-cog"/>
+	    <d:virtual-property name="todoIconClass" defaultValue="fa fa-cog"/>
+	    <d:virtual-property name="doneIconClass" defaultValue="fa fa-check"/>
+	   	<d:virtual-property name="myTodoIconClass" defaultValue="fa fa-cog"/>
+	    <d:virtual-property name="warnIconClass" defaultValue="fa fa-exclamation-circle"/>
+	   	<d:virtual-property name="noTaskIconClass" defaultValue="fa fa-ellipsis-h"/>
+	   	<d:virtual-property name="reviewIconClass" defaultValue="fa fa-envelope-o"/>
+	   	<d:virtual-property name="myReviewIconClass" defaultValue="fa fa-envelope-o"/>
+	   	<d:virtual-property name="waitIconColor" defaultValue="rgba(255, 97, 0, 0.7)"/>
+	    <d:virtual-property name="todoIconColor" defaultValue="rgba(100, 100, 100, 0.7)"/>
+	    <d:virtual-property name="doneIconColor" defaultValue="rgba(16, 171, 16, 0.7)"/>
+	    <d:virtual-property name="warnIconColor" defaultValue="rgba(130, 76, 173, 0.7)"/>
+	    <d:virtual-property name="noTaskIconColor" defaultValue="rgba(100, 100, 100, 0.7)"/>
+	    <d:virtual-property name="reviewIconColor" defaultValue="rgba(100, 100, 100, 0.7)"/>
+	   	<d:virtual-property name="myTodoIconColor" defaultValue="rgba(255, 97, 0, 0.7)"/>
+	   	<d:virtual-property name="myReviewIconColor" defaultValue="rgba(255, 0, 0, 0.7)"/>
+	    <d:virtual-event name="beforeCompleteTask" />
+	   	<d:virtual-event name="onCompleteTask" />
+	   	<d:virtual-event name="onOpenProcessInfo" />
+	</bean>
+	<bean parent="dorado.assembledComponentTypeRegister">
+	    <property name="name" value="CompleteButton" />
+	    <property name="src" value="com.gopher.oc.component.CompleteButton#CompleteButton" />
+	   	<d:virtual-property name="dataSet" referenceComponentType="DataSet"/>
+	    <d:virtual-property name="dataPath" defaultValue="#"/>
+	    <d:virtual-property name="property" />
+	</bean>
+	<bean parent="dorado.assembledComponentTypeRegister">
+	    <property name="name" value="FlowDiagram" />
+	    <property name="src" value="com.gopher.oc.component.FlowDiagram#FlowDiagram" />
+	   	<d:virtual-property name="type" defaultValue="taskId"/>
+	    <d:virtual-property name="value"/>
+	</bean>
+	<bean parent="dorado.assembledComponentTypeRegister">
+	    <property name="name" value="ProductInfo" />
+	    <property name="src" value="com.gopher.oc.component.ProductInfo#ProductInfo" />
+	</bean>
+	
+	<bean parent="dorado.expressionVarsInitializerRegister">
+		<property name="contextInitializer">
+			<bean class="com.gopher.oc.context.ContextVariablesInitializer" />
+		</property>
+	</bean>
+	<bean parent="dorado.expressionVarsInitializerRegister">
+		<property name="contextInitializer">
+			<bean class="com.gopher.hkoc.context.HkContextVariablesInitializer" />
+		</property>
+	</bean>
+</beans>

@@ -1,0 +1,28 @@
+实现：
+1.dorado后台单元测试
+2.dorado页面自动化测试
+项目中包含BDF2的前置步骤：
+1.覆写com.bstek.bdf2.core.context.ContextHolder类的getLoginUser()方法 返回一个登录用户。
+com.bstek.bdf2.core.context.ContextHolder.getLoginUser()
+2.remove the var authenticationExceptionMessage in contextVarsMap in method com.bstek.bdf2.core.context.ContextVariablesInitializer.initializeContext(Map<String, Object>)
+contextVarsMap.put("authenticationExceptionMessage",this.getAuthenticationExceptionMessage());
+3.do some thing in java 
+com.bstek.bdf2.core.security.filter.ContextFilter.setApplicationContext(ApplicationContext)
+4.demo
+    @BeforeClass
+    public static void setUp() throws Exception {
+        String pro1 = "com/bstek/dorado/dao/config/dorado-dao.properties";
+        String pro2 = "test/dorado/configure.properties";
+        String config1 = "com/bstek/dorado/dao/config/dorado-dao-context.xml";
+        String config2 = "test/dorado/dorado-test.xml";
+        DoradoTest.startWithBDFModels(DoradoTest.BDF_UFLO_MODEL,pro1,pro2,config1,config2);
+    }
+
+    @AfterClass
+    public static void tearDown() throws Exception {
+        DoradoTest.shutdown();
+    }
+    @org.junit.Test
+    public void initData(){
+        //initNoticeRenGouTestData();
+    }
