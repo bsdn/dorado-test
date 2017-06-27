@@ -18,8 +18,8 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import com.bstek.dorado.test.core.ScreenHelper;
 
 /**
- * Hello world!
- * 
+ * @author Lucas
+ * @since 对Dorado7页面进行自动化测试
  */
 public class DoradoViewTestSample {
 	public static void helloWorld() {
