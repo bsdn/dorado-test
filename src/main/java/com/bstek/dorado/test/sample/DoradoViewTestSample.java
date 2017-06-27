@@ -21,7 +21,7 @@ import com.bstek.dorado.test.core.ScreenHelper;
  * Hello world!
  * 
  */
-public class DoradoAutoTestSample {
+public class DoradoViewTestSample {
 	public static void helloWorld() {
 		// 如果你的 FireFox 没有安装在默认目录，那么必须在程序中设置
 		// System.setProperty("webdriver.firefox.bin", "D:\\Program

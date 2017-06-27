@@ -26,6 +26,10 @@ import com.bstek.dorado.core.io.BaseResourceLoader;
 import com.bstek.dorado.core.pkgs.PackageConfigurer;
 import com.bstek.dorado.web.ConsoleUtils;
 
+/**
+ * @author Lucas
+ * @since 2017-05-02
+ */
 public class DoradoTestEngine {
 	public static Set<String> BDF_MODEL = new HashSet<String>();
 	public static Set<String> BDF_UFLO_MODEL = new HashSet<String>();
